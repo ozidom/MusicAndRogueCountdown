@@ -10,6 +10,7 @@ var Game = {
     gameState: 0,
     gameRound: 0,
     timer: 0,
+    level: 0,
     songs: {},
     init: function() {
         $("#DedicationDiv").fadeOut(2000);
@@ -21,19 +22,22 @@ var Game = {
         this._drawMenu();
     },
     _startGame: function ()  {
+       
         this._newLevel();
     },
     _newLevel: function ()  {
         $("#gameScreen").append(this.display.getContainer());
-        //$("#gameScreen")["widget"].pause();
+        this.map = {};
+        this.engine = null;
+        this.player = null;
+        this.orc = null;
+        this.level++;
+        
         Game.display.clear();
-        
+        $("#gameText").text("Welcome to level " + this.level);
         musicPlayer = $("#playerDiv");
-        
-        //musicPlayer = SC.Widget("playerDiv");
-
         musicPlayer.attr("src",Song._getSongURL());
-
+        
         this._generateMap();
         var time = 100;
         this.gameState = 1;
@@ -74,9 +78,6 @@ var Game = {
         
     },
     _displayHelp: function () {
-        //this.display.clear();
-        //this.display.clear();
-        //gameText = new GameText();
         Game.display.clear();
         var text = GameText._help();
          for(var i=0;i<text.length;i++)
@@ -89,8 +90,6 @@ var Game = {
         
     },
     _displayAbout: function () {
-        //this.display.clear();
-        //this.display.clear();
         Game.display.clear();
         Game.display.drawText(1,1, "%c{yellow}ROGUE1");
         Game.display.drawText(1,2, GameText._about());
@@ -138,6 +137,7 @@ var Game = {
     _generateMap: function() {
         var digger = new ROT.Map.Digger();
         var freeCells = [];
+        map = {};
         
         var digCallback = function(x, y, value) {
             if (value) { return; }
@@ -201,10 +201,6 @@ var Game = {
     }
 };
 
-
-    
-
-    
 var orc = function(x, y) {
     this._x = x;
     this._y = y;
@@ -261,5 +257,5 @@ window.onload = function () {
         Game.init();
     }
 }
-//todo next branch lets get the color into the map so instead of "*" we used "*,red" etc...
+
     
