@@ -36,7 +36,7 @@ var Game = {
         Game.display.clear();
         $("#gameText").text("Welcome to level " + this.level);
         musicPlayer = $("#playerDiv");
-        musicPlayer.attr("src",Song._getSongURL());
+        musicPlayer.attr("src",Song._getSongURL().url);
         
         this._generateMap();
         var time = 100;
