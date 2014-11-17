@@ -9,7 +9,7 @@ var Game = {
     gameText: null,
     gameState: 0,
     gameRound: 0,
-    timer: 0,
+    timer: null,
     level: 0,
     songs: {},
     init: function() {
@@ -32,17 +32,22 @@ var Game = {
         this.player = null;
         this.orc = null;
         this.level++;
-        
+
         Game.display.clear();
         $("#gameText").text("Welcome to level " + this.level);
         musicPlayer = $("#playerDiv");
-        musicPlayer.attr("src",Song._getSongURL().url);
+        var song = Song._getSongURL(this.level);
+        musicPlayer.attr("src",song.url);
         
         this._generateMap();
-        var time = 100;
+        var time = song.time;
         this.gameState = 1;
         var self = this;
-        timer = window.setInterval(function() {
+        if(Game.timer)
+        {
+            window.clearInterval(Game.timer);
+        }
+        Game.timer = window.setInterval(function() {
 
             if(time>0){
             time--;
